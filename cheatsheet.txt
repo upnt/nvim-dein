@@ -1,0 +1,17 @@
+[Leader]
+space
+
+[Prefix]
+ddu         <Leader>d
+cheatsheet  <Leader>?
+
+[imap]
+skkeleton               <C-j>
+hover                   K  
+signature help          gs 
+definition jump         gd 
+implementation jump     gi 
+references              gr 
+diagonostics.show_line  gx 
+diagonostics.goto_prev  gp 
+diagonostics.goto_next  gn 

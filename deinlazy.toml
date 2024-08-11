@@ -1,0 +1,24 @@
+[[plugins]]
+repo = 'vim-denops/denops.vim'
+on_source = ['ddu.vim', 'ddc.vim', 'skkeleton']
+
+[[plugins]]
+repo = 'reireias/vim-cheatsheet'
+on_cmd = 'Cheat'
+hook_add = '''
+nnoremap <Leader>? :Cheat<CR>
+'''
+hook_source = '''
+let g:cheatsheet#cheat_file = expand('<sfile>:p:h') . '/cheatsheet.txt'
+let g:cheatsheet#float_window = 1
+let g:cheatsheet#float_window_width_ratio = 0.8
+let g:cheatsheet#float_window_height_ratio = 0.8
+'''
+
+[[plugins]]
+repo = 'Shougo/echodoc.vim'
+hook_source = '''
+    call echodoc#enable()
+    let g:echodoc#type = 'floating'
+    let g:echodoc#events = ['PumCompleteDone', 'TextChangedP', 'PumCompleteChanged']
+'''

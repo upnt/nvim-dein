@@ -1,0 +1,71 @@
+[[plugins]]
+repo = 'EdenEast/nightfox.nvim'
+hook_add = '''
+lua << EOF
+require('nightfox').setup({
+  options = {
+    -- Compiled file's destination location
+    compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+    compile_file_suffix = "_compiled", -- Compiled file suffix
+    transparent = true,    -- Disable setting background
+    terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+    dim_inactive = false,   -- Non focused panes set to alternative background
+    styles = {              -- Style to be applied to different syntax groups
+      comments = "italic",    -- Value is any valid attr-list value `:help attr-list`
+      conditionals = "NONE",
+      constants = "NONE",
+      functions = "NONE",
+      keywords = "bold",
+      numbers = "NONE",
+      operators = "NONE",
+      strings = "NONE",
+      types = "italic,bold",
+      variables = "NONE",
+    },
+    inverse = {             -- Inverse highlight for different types
+      match_paren = false,
+      visual = false,
+      search = false,
+    },
+  }
+})
+
+-- setup must be called before loading
+-- `Nightfox`
+-- `Dayfox`
+-- `Dawnfox`
+-- `Duskfox`
+-- `Nordfox`
+-- `Terafox`
+vim.cmd("colorscheme nordfox")
+EOF
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+set laststatus=2
+let g:lightline = {
+    \ 'colorscheme': "nordfox",
+    \ 'active': {
+    \     'left': [ [ 'mode', 'paste' ],
+    \               [ 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'separator': {
+    \     'left': "\ue0b8 ",
+    \     'right': "\ue0be "
+    \ },
+    \ 'subseparator': {
+    \     'left': "\ue0b9 ",
+    \     'right': "\ue0b9 "
+    \ },
+    \ 'tabline_separator': {
+    \     'left': "\ue0bc ",
+    \     'right': "\ue0ba "
+    \ },
+    \ 'tabline_subseparator': {
+    \     'left': "\ue0bb ",
+    \     'right': "\ue0bb "
+    \ },
+    \ }
+'''
