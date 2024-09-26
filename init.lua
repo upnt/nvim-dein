@@ -1,33 +1,44 @@
-local dppSrc = "~/.cache/dpp/repos/github.com/Shougo/dpp.vim"
-local denopsSrc = "~/.cache/dpp/repos/github.com/denops/denops.vim"
-local denopsInstaller = "~/.cache/dpp/repos/github.com/Shougo/dpp-ext-installer"
-
-vim.opt.runtimepath:prepend(dppSrc)
-
+local dpp_src = "$HOME/.cache/dpp/repos/github.com/Shougo/dpp.vim"
+-- プラグイン内のLuaモジュールを読み込むため、先にruntimepathに追加する必要があります。
+vim.opt.runtimepath:prepend(dpp_src) 
 local dpp = require("dpp")
 
-local dppBase = "~/.cache/dpp"
-if dpp.load_state(dppBase) then
-  vim.opt.runtimepath:prepend(denopsSrc)
-  vim.opt.runtimepath:prepend(denopsInstaller)
+local dpp_base = "$HOME/.cache/dpp/"
+local dpp_config = "$HOME/AppData/Local/nvim/dpp.ts"
+
+local denops_src = "$HOME/.cache/dpp/repos/github.com/vim-denops/denops.vim"
+
+local ext_toml = "$HOME/.cache/dpp/repos/github.com/Shougo/dpp-ext-toml"
+local ext_lazy = "$HOME/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy"
+local ext_installer = "$HOME/.cache/dpp/repos/github.com/Shougo/dpp-ext-installer"
+local ext_git = "$HOME/.cache/dpp/repos/github.com/Shougo/dpp-protocol-git"
+
+vim.opt.runtimepath:append(ext_toml)
+vim.opt.runtimepath:append(ext_git)
+vim.opt.runtimepath:append(ext_lazy)
+vim.opt.runtimepath:append(ext_installer)
+
+vim.g.denops_server_addr = "127.0.0.1:34141"
+vim.g["denops#debug"] = 1
+
+if dpp.load_state(dpp_base) then
+  vim.opt.runtimepath:prepend(denops_src)
 
   vim.api.nvim_create_autocmd("User", {
-    pattern = "DenopsReady",
-    callback = function()
-      vim.notify("dpp load_state() is failed")
-      dpp.make_state(dppBase, "ddu.ts")
-    end,
+	  pattern = "DenopsReady",
+  	callback = function ()
+		vim.notify("vim load_state is failed")
+  		dpp.make_state(dpp_base, dpp_config)
+  	end
   })
 end
 
+-- これはなくても大丈夫です。
 vim.api.nvim_create_autocmd("User", {
-  pattern = "Dpp:makeStatePost",
-  callback = function()
-    vim.notify("dpp make_state() is done")
-  end,
+	pattern = "Dpp:makeStatePost",
+	callback = function ()
+		vim.notify("dpp make_state() is done")
+	end
 })
 
-vim.cmd("filetype indent plugin on")
-vim.cmd("syntax on")
-
-require "config"
+require 'config'
