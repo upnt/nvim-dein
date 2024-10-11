@@ -5,6 +5,12 @@ import {
   Plugin,
 } from "https://deno.land/x/dpp_vim@v0.0.5/types.ts";
 import { Denops, fn } from "https://deno.land/x/dpp_vim@v0.0.5/deps.ts";
+import fs from 'fs'
+
+const listFiles = (dir: string): string[] =>
+	fs.readdirSync(dir, { withFileTypes: true }).flatMap(dirent =>
+							     	dirent.isFile() ? [ ${dir}/${dirent.name} ] : listFiles( ${dir}/${dirent.name} )
+							    )
 
 export class Config extends BaseConfig {
   override async config(args: {
@@ -35,37 +41,42 @@ export class Config extends BaseConfig {
     const dotfilesDir = "~/.config/nvim/";
 
     const tomls: Toml[] = [];
-    tomls.push(
-      await args.dpp.extAction(
-        args.denops,
-        context,
-        options,
-        "toml",
-        "load",
-        {
-          path: await fn.expand(args.denops, dotfilesDir + "dein.toml"),
-          options: {
-            lazy: false,
-          },
-        },
-      ) as Toml,
-    );
 
-    tomls.push(
-      await args.dpp.extAction(
-        args.denops,
-        context,
-        options,
-        "toml",
-        "load",
-        {
-          path: await fn.expand(args.denops, dotfilesDir + "dein_lazy.toml"),
-          options: {
-            lazy: true,
-          },
-        },
-      ) as Toml,
-    );
+    for (const file_path of listFiles(dotfilesDir + "plugins/dpp/")) {
+    	tomls.push(
+    	  await args.dpp.extAction(
+    	    args.denops,
+    	    context,
+    	    options,
+    	    "toml",
+    	    "load",
+    	    {
+    	      path: await fn.expand(args.denops, file_path),
+    	      options: {
+    	        lazy: false,
+    	      },
+    	    },
+    	  ) as Toml,
+    	);
+    }
+    
+    for (const file_path of listFiles(dotfilesDir + "plugins/dpp-lazy/")) {
+    	tomls.push(
+    	  await args.dpp.extAction(
+    	    args.denops,
+    	    context,
+    	    options,
+    	    "toml",
+    	    "load",
+    	    {
+    	      path: await fn.expand(args.denops, file_path),
+    	      options: {
+    	        lazy: false,
+    	      },
+    	    },
+    	  ) as Toml,
+    	);
+    }
 
     const recordPlugins: Record<string, Plugin> = {};
     const ftplugins: Record<string, string> = {};
