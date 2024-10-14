@@ -5,12 +5,6 @@ import {
   Plugin,
 } from "https://deno.land/x/dpp_vim@v0.0.5/types.ts";
 import { Denops, fn } from "https://deno.land/x/dpp_vim@v0.0.5/deps.ts";
-import fs from 'fs'
-
-const listFiles = (dir: string): string[] =>
-	fs.readdirSync(dir, { withFileTypes: true }).flatMap(dirent =>
-							     	dirent.isFile() ? [ ${dir}/${dirent.name} ] : listFiles( ${dir}/${dirent.name} )
-							    )
 
 export class Config extends BaseConfig {
   override async config(args: {
@@ -38,11 +32,10 @@ export class Config extends BaseConfig {
     };
 
     const [context, options] = await args.contextBuilder.get(args.denops);
-    const dotfilesDir = "~/.config/nvim/";
 
     const tomls: Toml[] = [];
 
-    for (const file_path of listFiles(dotfilesDir + "plugins/dpp/")) {
+    for await (const file of Deno.readDir("./plugins/dpp/")) {
     	tomls.push(
     	  await args.dpp.extAction(
     	    args.denops,
@@ -51,7 +44,7 @@ export class Config extends BaseConfig {
     	    "toml",
     	    "load",
     	    {
-    	      path: await fn.expand(args.denops, file_path),
+    	      path: await fn.expand(args.denops, "./plugins/dpp/" + file.name),
     	      options: {
     	        lazy: false,
     	      },
@@ -60,7 +53,7 @@ export class Config extends BaseConfig {
     	);
     }
     
-    for (const file_path of listFiles(dotfilesDir + "plugins/dpp-lazy/")) {
+    for await (const file of Deno.readDir("./plugins/dpp_lazy")) {
     	tomls.push(
     	  await args.dpp.extAction(
     	    args.denops,
@@ -69,9 +62,9 @@ export class Config extends BaseConfig {
     	    "toml",
     	    "load",
     	    {
-    	      path: await fn.expand(args.denops, file_path),
+    	      path: await fn.expand(args.denops, "./plugins/dpp_lazy/" + file.name),
     	      options: {
-    	        lazy: false,
+    	        lazy: true,
     	      },
     	    },
     	  ) as Toml,

@@ -8,8 +8,12 @@ const s:dpp_base = '~/.cache/dpp/'
 " Set dpp source path (required)
 " NOTE: The plugins must be cloned before.
 const s:dpp_src = '~/.cache/dpp/repos/github.com/Shougo/dpp.vim'
-const s:denops_src = '~/.cache/dpp/repos/github.com/denops/denops.vim'
+const s:denops_src = '~/.cache/dpp/repos/github.com/vim-denops/denops.vim'
 const s:denops_installer = '~/.cache/dpp/repos/github.com/Shougo/dpp-ext-installer'
+const s:ext_toml = '~/.cache/dpp/repos/github.com/Shougo/dpp-ext-toml'
+const s:ext_lazy = '~/.cache/dpp/repos/github.com/Shougo/dpp-ext-lazy'
+const s:ext_git = '~/.cache/dpp/repos/github.com/Shougo/dpp-protocol-git'
+
 const s:dotfiles_dir = '~/AppData/Local/nvim/'
 
 " Set dpp runtime path (required)
@@ -20,6 +24,9 @@ if s:dpp_base->dpp#min#load_state()
   " NOTE: denops.vim and dpp plugins are must be added
   execute 'set runtimepath^=' .. s:denops_src
   execute 'set runtimepath^=' .. s:denops_installer
+  execute 'set runtimepath^=' .. s:ext_toml
+  execute 'set runtimepath^=' .. s:ext_lazy
+  execute 'set runtimepath^=' .. s:ext_git
 
   autocmd User DenopsReady
   \ : echohl WarningMsg
