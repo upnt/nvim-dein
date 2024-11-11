@@ -35,7 +35,10 @@ export class Config extends BaseConfig {
 
     const tomls: Toml[] = [];
 
-    for await (const file of Deno.readDir("./plugins/dpp/")) {
+    console.log(await fn.expand(args.denops, "<sfile>:p"))
+    const plugDir: string = await fn.expand(args.denops, "./plugins/dpp/")
+    const lazyPlugDir: string = await fn.expand(args.denops, "./plugins/dpp/")
+    for await (const file of Deno.readDir(plugDir)) {
     	tomls.push(
     	  await args.dpp.extAction(
     	    args.denops,
@@ -44,7 +47,7 @@ export class Config extends BaseConfig {
     	    "toml",
     	    "load",
     	    {
-    	      path: await fn.expand(args.denops, "./plugins/dpp/" + file.name),
+    	      path: plugDir + file.name,
     	      options: {
     	        lazy: false,
     	      },
@@ -53,7 +56,7 @@ export class Config extends BaseConfig {
     	);
     }
     
-    for await (const file of Deno.readDir("./plugins/dpp_lazy")) {
+    for await (const file of Deno.readDir(lazyPlugDir)) {
     	tomls.push(
     	  await args.dpp.extAction(
     	    args.denops,
@@ -62,7 +65,7 @@ export class Config extends BaseConfig {
     	    "toml",
     	    "load",
     	    {
-    	      path: await fn.expand(args.denops, "./plugins/dpp_lazy/" + file.name),
+    	      path: lazyPlugDir + file.name,
     	      options: {
     	        lazy: true,
     	      },

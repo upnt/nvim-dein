@@ -1,5 +1,6 @@
 " Ward off unexpected things that your distro might have made, as
 " well as sanely reset options when re-sourcing .vimrc
+source config.vim
 set nocompatible
 
 " Set dpp base path (required)
@@ -19,21 +20,21 @@ const s:dotfiles_dir = '~/AppData/Local/nvim/'
 " Set dpp runtime path (required)
 execute 'set runtimepath^=' .. s:dpp_src
 
-if s:dpp_base->dpp#min#load_state()
-  " NOTE: dpp#make_state() requires denops.vim
-  " NOTE: denops.vim and dpp plugins are must be added
-  execute 'set runtimepath^=' .. s:denops_src
-  execute 'set runtimepath^=' .. s:denops_installer
-  execute 'set runtimepath^=' .. s:ext_toml
-  execute 'set runtimepath^=' .. s:ext_lazy
-  execute 'set runtimepath^=' .. s:ext_git
-
-  autocmd User DenopsReady
-  \ : echohl WarningMsg
-  \ | echomsg 'dpp load_state() is failed'
-  \ | echohl NONE
-  \ | call dpp#make_state(s:dpp_base, s:dotfiles_dir . 'dpp.ts')
-endif
+"if s:dpp_base->dpp#min#load_state()
+"  " NOTE: dpp#make_state() requires denops.vim
+"  " NOTE: denops.vim and dpp plugins are must be added
+"  execute 'set runtimepath^=' .. s:denops_src
+"  execute 'set runtimepath^=' .. s:denops_installer
+"  execute 'set runtimepath^=' .. s:ext_toml
+"  execute 'set runtimepath^=' .. s:ext_lazy
+"  execute 'set runtimepath^=' .. s:ext_git
+"
+"  autocmd User DenopsReady
+"  \ : echohl WarningMsg
+"  \ | echomsg 'dpp load_state() is failed'
+"  \ | echohl NONE
+"  \ | call dpp#make_state(s:dpp_base, s:dotfiles_dir . 'dpp.ts')
+"endif
 
 autocmd User Dpp:makeStatePost
       \ : echohl WarningMsg
