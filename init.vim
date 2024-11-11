@@ -1,6 +1,6 @@
 " Ward off unexpected things that your distro might have made, as
 " well as sanely reset options when re-sourcing .vimrc
-source config.vim
+source ~/AppData/Local/nvim/config.vim
 set nocompatible
 
 " Set dpp base path (required)
