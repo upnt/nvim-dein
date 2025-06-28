@@ -10,9 +10,13 @@ export async function setDvpm(denops: Denops): Promise<void> {
   // プラグインをインストールするベースとなるパスです。
   const basePath = denops.meta.host === "nvim" ? "~/.cache/nvim/dvpm" : "~/.cache/vim/dvpm";
   const base = z.string().parse(await fn.expand(denops, basePath));
+  const cachePath = denops.meta.host === "nvim"
+    ? "~/.config/nvim/plugin/dvpm_plugin_cache.vim"
+    : "~/.config/vim/pluguin/dvpm_plugin_cache.vim";
+  const cache = z.string().parse(await fn.expand(denops, cachePath));
 
   // ベースパスを引数に、 Dvpm.begin を実行して、 `dvpm` インスタンスを取得します。
-  const dvpm = await Dvpm.begin(denops, { base });
+  const dvpm = await Dvpm.begin(denops, { base, cache });
 
   await dvpm.add({
       url: "psliwka/vim-smoothie",
@@ -26,6 +30,7 @@ export async function setDvpm(denops: Denops): Promise<void> {
     after: async ({ denops }) => {
         await execute(denops, `colorscheme molokai`);
     },
+    cache: { enabled: true },
   });
 
   // 最後に dvpm.end を呼べば完了です。
