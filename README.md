@@ -1,1 +1,2 @@
-# denops-config
+# vim-mydenops
+vim / neovim configurations
