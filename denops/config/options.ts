@@ -11,7 +11,7 @@ import { ensureDir } from "jsr:@std/fs@1.0.18/ensure-dir";
 import { stdpath } from "jsr:@denops/std@7.6.0/function/nvim";
 import { z } from "npm:zod@3.25.67";
 
-export async function setOption(denops: Denops) {
+export async function setOptions(denops: Denops) {
   const backupdir = denops.meta.host === "nvim"
     ? z.string().parse(await stdpath(denops, "cache"))
     : z.string().parse(await fn.expand(denops, "~/.cache/vim/back"));

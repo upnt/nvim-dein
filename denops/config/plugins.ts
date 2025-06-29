@@ -6,7 +6,7 @@ import { ensureString } from "https://deno.land/x/unknownutil@v2.1.1/mod.ts";
 import { execute } from "jsr:@denops/std@7.6.0/helper";
 import { z } from "npm:zod@3.25.67";
 
-export async function setDvpm(denops: Denops): Promise<void> {
+export async function setPlugins(denops: Denops): Promise<void> {
   // プラグインをインストールするベースとなるパスです。
   const basePath = denops.meta.host === "nvim" ? "~/.cache/nvim/dvpm" : "~/.cache/vim/dvpm";
   const base = z.string().parse(await fn.expand(denops, basePath));

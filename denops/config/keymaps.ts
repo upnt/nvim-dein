@@ -6,7 +6,7 @@ import { ensureString } from "https://deno.land/x/unknownutil@v2.1.1/mod.ts";
 import { execute } from "jsr:@denops/std@7.6.0/helper";
 import { z } from "npm:zod@3.25.67";
 
-export async function setKeymap(denops: Denops): Promise<void> {
+export async function setKeymaps(denops: Denops): Promise<void> {
   await mapping.map(denops, "jj", "<esc>", {
       mode: "i",
       silent: true,
