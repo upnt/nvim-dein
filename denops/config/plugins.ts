@@ -19,19 +19,25 @@ export async function setPlugins(denops: Denops): Promise<void> {
   const dvpm = await Dvpm.begin(denops, { base, cache });
 
   await dvpm.add({
-      url: "psliwka/vim-smoothie",
-      after: async ({ denops }) => {
-          await execute(denops, `let g:smoothie_enabled = v:true`);
-      },
+    url: "psliwka/vim-smoothie",
+    after: async ({ denops }) => {
+      await execute(denops, `let g:smoothie_enabled = v:true`);
+    },
   });
-//
+
   await dvpm.add({
     url: "tomasr/molokai",
     after: async ({ denops }) => {
-        await execute(denops, `colorscheme molokai`);
+      await execute(denops, `colorscheme molokai`);
     },
     cache: { enabled: true },
   });
+
+  await dvpm.add({ url: "vim-denops/denops-shared-server.vim" });
+  await dvpm.add({ url: "sheerun/vim-polyglot" });
+  await dvpm.add({ url: "yukimemi/silentsaver.vim" });
+  await dvpm.add({ url: "cohama/lexima.vim" });
+  await dvpm.add({ url: "kana/vim-smartword" });
 
   // 最後に dvpm.end を呼べば完了です。
   await dvpm.end();
